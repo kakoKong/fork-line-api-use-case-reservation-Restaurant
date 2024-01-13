@@ -4,10 +4,6 @@ This is the demo app source code for [Restaurant reservation](https://lineapiuse
 
 The Restaurant Reservation app can be launched on the LIFF browser with the LINE app and allows you to make restaurant reservations. To prevent users from forgetting to visit the store, a reminder function via LINE message can be implemented by default.
 
-The source code environment introduced on this page uses AWS.
-
-※ [日本語ドキュメントはこちらからご確認いただけます。](../../README.md)
-
 # Libraries
 
 ## Node.js
