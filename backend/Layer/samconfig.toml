@@ -2,6 +2,12 @@ version = 0.1
 [default]
 [default.deploy]
 [default.deploy.parameters]
-region = "ap-northeast-1"
+region = "ap-southeast-1"
 capabilities = "CAPABILITY_NAMED_IAM"
 parameter_overrides = "Environment=\"dev\""
+stack_name = "KongAppStack"
+resolve_s3 = true
+s3_prefix = "KongAppStack"
+confirm_changeset = true
+disable_rollback = true
+image_repositories = []

@@ -8,35 +8,35 @@ from dateutil.tz import gettz
 from common import common_const as const
 from common.channel_access_token import ChannelAccessToken
 
-# 環境変数
+# Environmental variables
 LOGGER_LEVEL = os.environ.get("LOGGER_LEVEL")
-# ログ出力の設定
+# Configuration for log output
 logger = logging.getLogger()
 if LOGGER_LEVEL == 'DEBUG':
     logger.setLevel(logging.DEBUG)
 else:
     logger.setLevel(logging.INFO)
 
-# テーブル操作クラスの初期化
+# Initialization of the table operation class
 channel_access_token_table_controller = ChannelAccessToken()
 
 
 def update_limited_channel_access_token(channel_id, channel_access_token):  # noqa 501
     """
-    指定のチャンネルIDの短期チャネルアクセストークンを更新する
+    Update the short-term channel access token for the specified channel ID
     Parameters
     table : dynamoDB.Table
-        dynamoDBのテーブルオブジェクト
+        The table object of dynamoDB
     key :string
     itemDict : dict
-        新規アイテム
+        New item
 
     Returns
     -------
-    なし
+    None
     """
     now = datetime.now(gettz('Asia/Tokyo'))
-    # 取得から20日を期限とする
+    # Set the expiration to 20 days from acquisition
     limit_date = (now + timedelta(days=20)).strftime('%Y-%m-%d %H:%M:%S%z')
 
     channel_access_token_table_controller.update_item(channel_id,
@@ -46,12 +46,12 @@ def update_limited_channel_access_token(channel_id, channel_access_token):  # no
 
 def get_channel_access_token(channel_id, channel_secret):
     """
-    MINIアプリの短期チャネルアクセストークンを新規で取得する
+    Obtain a new short-term channel access token for the MINI app
 
     Returns
     -------
     str
-        access_token:短期のチャネルアクセストークン
+        access_token: short-term channel access token
     """
 
     headers = {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -62,7 +62,7 @@ def get_channel_access_token(channel_id, channel_secret):
     }
 
     response = requests.post(
-        const.const.API_ACCESSTOKEN_URL,
+        const.API_ACCESSTOKEN_URL,
         headers=headers,
         data=body
     )
@@ -74,32 +74,32 @@ def get_channel_access_token(channel_id, channel_secret):
 
 def lambda_handler(event, contexts):
     """
-    dbの短期チャネルアクセストークンの期限をチェックし更新する
+    Check and update the expiration of the short-term channel access token in the db
 
     Returns
     -------
     event
-        channel_access_token:短期チャネルアクセストークン
+        channel_access_token: short-term channel access token
     """
     channel_access_token_info = channel_access_token_table_controller.scan()
     for item in channel_access_token_info:
-        # 途中処理でエラーが発生した場合でも後続処理が走るようにする
+        # Ensure subsequent processes run even if an error occurs midway
         try:
             if item.get('channelAccessToken'):
                 limit_date = datetime.strptime(
                     item['limitDate'], '%Y-%m-%d %H:%M:%S%z')
                 now = datetime.now(gettz('Asia/Tokyo'))
-                # 本日以前の場合トークン再取得する
+                # If the token has expired today or before, reacquire the token
                 if limit_date < now:
                     channel_access_token = get_channel_access_token(
                         item['channelId'], item['channelSecret'])
-                    # DBのチャネルアクセストークンを更新
+                    # Update the channel access token in the DB
                     update_limited_channel_access_token(
                         item['channelId'], channel_access_token)
                     logger.info('channelId: %s updated', item['channelId'])
                 else:
-                    channel_access_token = item['channelAccessToken']  # noqa: E501
-            # 1度もアクセストークン取得していない場合は新規取得する
+                    channel_access_token = item['channelAccessToken']
+            # If the access token has never been obtained before, acquire it new
             else:
                 channel_access_token = get_channel_access_token(
                     item['channelId'], item['channelSecret'])
@@ -107,5 +107,5 @@ def lambda_handler(event, contexts):
                     item['channelId'], channel_access_token)
                 logger.info('channelId: %s created', item['channelId'])
         except Exception as e:
-            logger.error('Occur Exception: %s', e)
-            continue
+          logger.error('An Exception occurred: %s', e)
+          continue

@@ -6,12 +6,12 @@ import boto3
 import json
 
 from common import (line, utils)
-# DynamoDB操作クラスのインポート
+# Import DynamoDB operation class
 from common.remind_message import RemindMessage
 from common.channel_access_token import ChannelAccessToken
 
 
-# ログ出力の設定
+# Configuration for log output
 logger = logging.getLogger()
 LOGGER_LEVEL = os.getenv('LOGGER_LEVEL', None)
 if LOGGER_LEVEL == 'DEBUG':
@@ -19,31 +19,30 @@ if LOGGER_LEVEL == 'DEBUG':
 else:
     logger.setLevel(logging.INFO)
 
-# テーブルの宣言
+# Declaration of the table
 remind_message_table_controller = RemindMessage()
 channel_access_token_table_controller = ChannelAccessToken()
 
 
 def send_message_from_dynamodb():
     """
-    テーブルに登録されたデータを取得し、プッシュメッセージ送信を行う。
+    Retrieve data registered in the table and send a push message.
     """
 
-    # 本日送信のメッセージをDynamoテーブルから取得する
+    # Retrieve today's messages to be sent from the DynamoDB table
     today = datetime.datetime.strftime(
         (datetime.datetime.now(gettz('Asia/Tokyo')).date()), '%Y-%m-%d')
 
-    today_messages = remind_message_table_controller.query_index_remind_date(
-        today)
+    today_messages = remind_message_table_controller.query_index_remind_date(today)
 
-    # NOTE: [queryの検索]データが0件→Items有り [get_itemの検索]データが0件→ItemsというKey自体無し
+    # NOTE: [Search with query] If no data→Items exist [Search with get_item] If no data→The key 'Items' itself does not exist
     if not today_messages:
         return
 
-    # MEMO: Lambdaの実行時間が長くなる場合、SQSに一度保存した後に他Lambdaでポーリングさせることを考える。
-    # MEMO: 上の場合 (EventBridge→Lambda→SQS→Lambda)
+    # MEMO: If Lambda execution time becomes long, consider saving to SQS once and then polling with another Lambda.
+    # MEMO: In the above case (EventBridge→Lambda→SQS→Lambda)
     for message_item in today_messages:
-        # Decimal型をintに変換
+        # Convert Decimal type to int
         message_info = json.loads(json.dumps(
             message_item['messageInfo'],
             default=utils.decimal_to_int))
@@ -55,27 +54,27 @@ def send_message_from_dynamodb():
                                    message_info['userId'])
         except Exception as e:
             logger.exception(
-                'プッシュメッセージ送信でエラーが発生しました。該当メッセージを確認してください。メッセージID：%s',
+                'An error occurred while sending the push message. Please check the corresponding message. Message ID: %s',
                 message_item['id'])
-            logger.exception('エラー内容: %s', e)
+            logger.exception('Error details: %s', e)
             continue
 
 
 def lambda_handler(event, context):
     """
-    Webhookに送信されたLINEトーク内容を返却する
+    Return the content of the LINE talk sent to the Webhook
 
     Parameters
     ----------
     event : dict
-        Webhookへのリクエスト内容。
+        Request content to the Webhook.
     context : dict
-        コンテキスト内容。
+        Context content.
 
     Returns
     -------
     Response : dict
-        Webhookへのレスポンス内容。
+        Response content to the Webhook.
     """
     logger.info(event)
 

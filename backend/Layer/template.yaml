@@ -2,7 +2,7 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: >
-  LINE-UseCase-Layer-Sample
+  Kong Line Restaurant Reservation App
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
@@ -21,9 +21,9 @@ Parameters:
 Mappings:
   EnvironmentMap:
     dev:
-      LayerName: LINE-USECASE-RESTAURANT-LAYER-DEV
+      LayerName: KONG-RESTAURANT-DEV
     prod:
-      LayerName: LINE-USECASE-RESTAURANT-LAYER-PROD
+      LayerName: KONG-RESTAURANT-PROD
 
 Resources:
   UseCaseLayerDev:
