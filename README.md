@@ -1,79 +1,100 @@
 # Overview
-[LINE API Use Caseサイト](https://lineapiusecase.com/ja/top.html)で提供している[レストラン予約](https://lineapiusecase.com/ja/usecase/reservation.html)のデモアプリケーションソースコードとなります。    
-今回紹介している手順を参考にすると、LINE APIを活用したレストラン予約アプリケーションを開発することが可能です。    
-レストラン予約アプリケーションはLINEアプリでLIFFブラウザ上で起動し、レストランの予約を行うことが出来ます。  
-ユーザーの来店忘れを防止するための、LINEメッセージによるリマインド機能もデフォルトで実装できます。  
 
-なお、このページで紹介しているソースコードの環境はAWSを利用しています。  
+This is the demo app source code for [Restaurant reservation](https://lineapiusecase.com/en/usecase/reservation.html) provided on the [LINE API Use Case site](https://lineapiusecase.com/en/top.html). By referring to the steps described in this article, you can develop a restaurant reservation app using the LINE API.
 
-※ [The English version document is here.](./docs/en/README_en.md)
+The Restaurant Reservation app can be launched on the LIFF browser with the LINE app and allows you to make restaurant reservations. To prevent users from forgetting to visit the store, a reminder function via LINE message can be implemented by default.
+
+The source code environment introduced on this page uses AWS.
+
+※ [日本語ドキュメントはこちらからご確認いただけます。](../../README.md)
 
 # Libraries
-## Node.js
-フロントエンド側の開発で使用する Node.js をローカル開発環境にインストールしてください。  
-※ v10.13 以上 最新の LTS バージョンのインストールをおすすめします
 
-【Node.jsダウンロードサイト】  
-https://nodejs.org/ja/download/
+## Node.js
+
+Install Node.js, which will be used for the front-end development, in your local development environment.  
+*We recommend installing the latest LTS version of v10.13 or higher
+
+Node.js download site:
+
+https://nodejs.org/en/download/
 
 ## Python
-Pythonのバージョン3.8以上がインストール済みでない場合、インストールしてください。  
-コマンドプロンプト、又はターミナルにて以下のコマンドを入力し、インストール済みか確認できます。
+
+Install Python version 3.8 or later if it isn't already installed.
+
+You can check if it's installed by entering this command in Command Prompt or Terminal:
+
 ```
 python --version
-
-Python 3.8.3 ← このように表示されたら、インストール済みです。
 ```
 
-インストール済みでない場合、バックエンド側の開発で使用するPython（3.8以上）をローカル開発環境にインストールしてください。
+If Python is installed, the version will be returned. For example:
 
-【Pythonインストール参考サイト】  
-Windows: https://www.python.jp/install/windows/install.html  
-Mac: https://www.python.jp/install/macos/index.html
+```
+Python 3.8.3
+```
+
+Install Python (3.8 or higher), used for back-end development, in your local development environment if it's not already installed.
+
+Python installation reference site:
+
+Windows: https://docs.python.org/3/using/windows.html  
+Mac: https://docs.python.org/3/using/mac.html
 
 ## AWS SAM
-本アプリケーションのデプロイには、AWS サーバーレスアプリケーションモデル(AWS SAM)を利用します。
-[AWS公式ドキュメント](https://docs.aws.amazon.com/ja_jp/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html
-)を参考に、AWS アカウントの登録と設定、AWS SAM CLI と Docker のインストールを行ってください。  
-※ SAM CLIの推奨バージョンは1.15.0以上  
-※ Docker のインストールもローカルテストの有無に関わらず必要です。
 
-### 公式ドキュメントの参考箇所
-公式ドキュメントの以下の項目を完了させ、次の手順に進んでください。なお、既に導入済みのものは適宜飛ばして下さい。  
-※本資料は 2020 年 12 月に作成しているため、最新の公式ドキュメントの内容と齟齬がある可能性があります。
+The AWS Serverless Application Model (AWS SAM) is used to deploy this app.
 
-1. AWS SAM CLI のインストール
-1. AWS 認証情報の設定
-1. （任意）チュートリアル: Hello World アプリケーションの導入
+See the [official AWS documentation](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html) to register and set up an AWS account, and install the AWS SAM CLI and Docker.  
+
+*Recommended version of SAM CLI is 1.15.0 or later.  
+*Docker installation is also required, with or without local testing.
+
+### Reference points in the official documentation
+
+Complete these items in the official documentation and proceed to the next step. If you have already installed it, you can skip this section.
+
+*This document was created in December 2020 and may be inconsistent with the latest official documentation.
+
+1. Install AWS SAM CLI
+1. Set up AWS authentication credentials
+1. (Optional) Tutorial: Deploying the Hello World app
 
 # Getting Started / Tutorial
-こちらの手順では、アプリケーション開発に必要な「LINEチャネル作成、バックエンド・フロントエンドの構築、テストデータ投入、動作確認」について説明します。
-以下リンク先の手順を参考にし、本番環境（AWS）とローカル環境の構築を行ってください。
 
-### [LINE チャネルの作成](./docs/jp/liff-channel-create.md)
-### [バックエンドの構築](./docs/jp/back-end-construction.md)
-### [本番（AWS）フロントエンド環境構築](./docs/jp/front-end-construction.md)
-### [ローカルフロントエンド環境構築](./docs/jp/front-end-development-environment.md)
+This procedure explains how to create a LINE channel, build the backend and frontend, and check the operation, which are necessary for app development.
+
+See these steps to build your local and production (AWS) environment:
+
+- **[Create a LINE channel](liff-channel-create.md)**
+- **[Build the back-end](back-end-construction.md)**
+- **[Build front end production environment (AWS)](front-end-construction.md)**
+- **[Build a local front end environment](front-end-development-environment.md)**
 ***
-### [テストデータ投入](./docs/jp/test-data-charge.md)
+- **[Test data input](test-data-charge.md)**
 ***
-### [動作確認](./docs/jp/validation.md)
+- **[Check operation](validation.md)**
 ***
+
 # License
-Restaurantの全てのファイルは、条件なしで自由にご利用いただけます。
-自由にdownload&cloneをして、LINE APIを活用した素敵なアプリケーションの開発を始めてください！
 
-See [LICENSE](LICENSE) for more detail.(English)
+All files on Restaurant are free to use without conditions.
+
+Download and clone to start developing apps using LINE API.
+
+See [LICENSE](LICENSE) for details. (English)
 
 # How to contribute
 
-First of all, thank you so much for taking your time to contribute! LINE API Use Case Hair Salon is not very different from any other open source projects. It will be fantastic if you help us by doing any of the following:
+Thank you for taking the time to contribute. LINE API Use Case Restaurant isn't different from any other open source projects. You can help by:
 
-- File an issue in [the issue tracker](https://github.com/line/line-api-use-case-reservation-restaurant/issues) to report bugs and propose new features and improvements.
-- Ask a question using [the issue tracker](https://github.com/line/line-api-use-case-reservation-restaurant/issues).
-- Contribute your work by sending [a pull request](https://github.com/line/line-api-use-case-reservation-restaurant/pulls).
+- Filing an issue in [the issue tracker](https://github.com/line/line-api-use-case-reservation-restaurant/issues) to report bugs and propose new features and improvements.
+- Asking a question using [the issue tracker](https://github.com/line/line-api-use-case-reservation-restaurant/issues).
+- Contributing your work by submitting [a pull request](https://github.com/line/line-api-use-case-reservation-restaurant/pulls).
 
-When you are sending a pull request, you'll be considered as being aware of and accepting the followings.
+When you are sending a pull request, be aware of and accepting the following:
+
 - Grant [the same license](LICENSE) to the contribution
 - Represent the contribution is your own creation
-- Not expected to provide support for your contribution
+- Not expected to give support for your contribution
