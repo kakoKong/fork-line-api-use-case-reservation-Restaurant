@@ -63,14 +63,14 @@ This procedure explains how to create a LINE channel, build the backend and fron
 
 See these steps to build your local and production (AWS) environment:
 
-- **[Create a LINE channel](liff-channel-create.md)**
-- **[Build the back-end](back-end-construction.md)**
-- **[Build front end production environment (AWS)](front-end-construction.md)**
-- **[Build a local front end environment](front-end-development-environment.md)**
+- **[Create a LINE channel](docs/en/liff-channel-create.md)**
+- **[Build the back-end](docs/en/back-end-construction.md)**
+- **[Build front end production environment (AWS)](docs/en/front-end-construction.md)**
+- **[Build a local front end environment](docs/en/front-end-development-environment.md)**
 ***
-- **[Test data input](test-data-charge.md)**
+- **[Test data input](docs/en/test-data-charge.md)**
 ***
-- **[Check operation](validation.md)**
+- **[Check operation](docs/en/validation.md)**
 ***
 
 # License
