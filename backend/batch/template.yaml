@@ -24,10 +24,10 @@ Mappings:
       MessageTableName: RemindMessageTableRestaurantDev
       LINEChannelAccessTokenDBName: LINEChannelAccessTokenRestaurantDev
       EventBridgeName: RestaurantEventDev
-      LayerVersion: Layer Version
+      LayerVersion: 1
       LoggerLevel: DEBUG
       # TTL is True:Reservation Data will be deleted at the specified date, False:Data will not be deleted
-      TTL: False
+      TTL: True
       # Set day to delete data
       # If you set TTL: True, data will be deleted in the period specified below.
       TTLDay: 10
@@ -35,11 +35,11 @@ Mappings:
       MessageTableName: RemindMessageTableRestaurantProd
       LINEChannelAccessTokenDBName: LINEChannelAccessTokenRestaurantProd
       EventBridgeName: RestaurantEventProd
-      LayerVersion: Layer Version
-      LoggerLevel: DEBUG or INFO
+      LayerVersion: 1
+      LoggerLevel: DEBUG
       # TTL is True:Reservation Data will be deleted at the specified date, False:Data will not be deleted
-      TTL: False or True
-      TTLDay: Set day to delete data
+      TTL: True
+      TTLDay: 10
 
 Resources:
   LambdaRole:
