@@ -1,5 +1,5 @@
 """
-DynamoDB操作用基底モジュール
+Base module for DynamoDB operations
 
 """
 import boto3
@@ -13,27 +13,27 @@ logger.setLevel(logging.INFO)
 
 
 class DynamoDB:
-    """DynamoDB操作用基底クラス"""
+    """Base class for DynamoDB operations"""
     __slots__ = ['_db', '_table_name']
 
     def __init__(self, table_name):
-        """初期化メソッド"""
+        """Initialization method"""
         self._table_name = table_name
         self._db = boto3.resource('dynamodb')
 
     def _put_item(self, item):
         """
-        アイテムを登録する
+        Register an item
 
         Parameters
         ----------
         item : dict
-            登録するアイテム
+            Item to be registered
 
         Returns
         -------
         response : dict
-            レスポンス情報
+            Response information
 
         """
         try:
@@ -46,23 +46,23 @@ class DynamoDB:
 
     def _update_item(self, key, expression, expression_value, return_value):
         """
-        アイテムを更新する
+        Update an item
 
         Parameters
         ----------
         key : dict
-            更新するアイテムのキー
+            Key of the item to be updated
         expression : str
-            更新の式
+            Update expression
         expression_value : dict
-            更新する値
+            Values to be updated
         return_value : str
-            responseで取得する値
+            Value to be obtained in response
 
         Returns
         -------
         response : dict
-            レスポンス情報
+            Response information
 
         """
         try:
@@ -80,30 +80,29 @@ class DynamoDB:
                               condition_expression, expression_attribute_names,
                               expression_value, return_value):
         """
-        アイテムを更新する
-        ※キー以外の更新条件がある場合に対応します
-        ※
+        Update an item
+        * Supports when there are update conditions other than the key
 
         Parameters
         ----------
         key : dict
-            更新するアイテムのキー
+            Key of the item to be updated
         update_expression : str
-            更新の式
+            Update expression
         condition_expression : str
-            更新条件
-        expression_attribute_names:dict
-            プレースホルダー
-            （予約語に対応するため）
+            Update condition
+        expression_attribute_names: dict
+            Placeholders
+            (for reserved words)
         expression_value : dict
-            各変数宣言
+            Variable declarations
         return_value : str
-            responseで取得する値
+            Value to be obtained in response
 
         Returns
         -------
         response : dict
-            レスポンス情報
+            Response information
 
         """
         try:
@@ -123,17 +122,17 @@ class DynamoDB:
 
     def _delete_item(self, key):
         """
-        アイテムを削除する
+        Delete an item
 
         Parameters
         ----------
         key : dict
-            削除するアイテムのキー
+            Key of the item to be deleted
 
         Returns
         -------
         response : dict
-            レスポンス情報
+            Response information
 
         """
         try:
@@ -145,17 +144,17 @@ class DynamoDB:
 
     def _get_item(self, key):
         """
-        アイテムを取得する
+        Retrieve an item
 
         Parameters
         ----------
         key : dict
-            取得するアイテムのキー
+            Key of the item to be retrieved
 
         Returns
         -------
         response : dict
-            レスポンス情報
+            Response information
 
         """
         try:
@@ -167,17 +166,17 @@ class DynamoDB:
 
     def _query(self, key, value):
         """
-        queryメソッドを使用してアイテムを取得する
+        Use the query method to retrieve items
 
         Parameters
         ----------
         key : dict
-            取得するアイテムのキー
+            Key of the item to be retrieved
 
         Returns
         -------
         items : list
-            対象アイテムのリスト
+            List of target items
 
         """
         try:
@@ -191,21 +190,21 @@ class DynamoDB:
 
     def _query_index(self, index, expression, expression_value):
         """
-        indexからアイテムを取得する
+        Retrieve items from an index
 
         Parameters
         ----------
         index : str
-            index名
+            Index name
         expression : str
-            検索対象の式
+            Expression of the target search
         expression_value : dict
-            expression内で使用する変数名と値
+            Variable names and values used in the expression
 
         Returns
         -------
         items : list
-            検索結果
+            Search results
 
         """
         try:
@@ -222,20 +221,19 @@ class DynamoDB:
 
     def _scan(self, key, value=None):
         """
-        scanメソッドを使用してデータ取得
+        Use the scan method to retrieve data
 
         Parameters
         ----------
         key : str
-            キー名
+            Key name
         value : object, optional
-            検索する値, by default None
+            Value to search for, by default None
 
         Returns
         -------
         items : list
-            対象アイテムのリスト
-
+            List of target items
 
         """
         scan_kwargs = {}
@@ -251,12 +249,12 @@ class DynamoDB:
 
     def _get_table_size(self):
         """
-        アイテム数を取得する
+        Retrieve the number of items
 
         Returns
         -------
         count : int
-            テーブルのアイテム数
+            Number of items in the table
 
         """
         try:

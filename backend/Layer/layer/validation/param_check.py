@@ -4,30 +4,30 @@ import datetime
 
 class ParamCheck():
     """
-    パラメータチェックを実施するクラス。
+    Class to perform parameter checks.
     """
 
     def __init__(self):
         """
-        初期化を実施する。
+        Perform initialization.
         """
         pass
 
     def check_required(self, columns, column_name):
         """
-        必須チェックを実施する。
+        Perform a required check.
 
         Parameters
         ----------
         columns : obj
-            必須チェックをする項目
+            The item to be checked for requirement
         column_name: str
-            項目名
+            Item name
 
         Returns
         -------
         str
-            エラー内容
+            Error content
         """
         columns_replaced = str(columns).replace(' ', '')
 
@@ -36,24 +36,25 @@ class ParamCheck():
 
     def check_length(self, columns, column_name, min, max):
         """
-        文字数チェックを実施する。
+        Perform a character count check.
 
         Parameters
         ----------
         columns : obj
-            文字数チェックをする項目
+            The item to be checked for character count
         column_name: str
-            項目名
+            Item name
         min : int
-            最小桁数
+            Minimum number of characters
         max : int
-            最大桁数
+            Maximum number of characters
 
         Returns
         -------
         str
-            エラー内容
+            Error content
         """
+        # Code for check_length method
         if type(columns) is int:
             columns = str(columns)
 
@@ -65,20 +66,21 @@ class ParamCheck():
 
     def check_int(self, columns, column_name):
         """
-        int型チェックを実施する。
+        Perform an integer type check.
 
         Parameters
         ----------
         columns : obj
-            int型チェックをする項目
+            The item to be checked if it's of integer type
         column_name: str
-            項目名
+            Item name
 
         Returns
         -------
         str
-            エラー内容
+            Error content
         """
+        # Code for check_int method
         if isinstance(columns, int):
             columns_replaced = True
         else:
@@ -89,21 +91,21 @@ class ParamCheck():
 
     def check_year_month(self, columns, column_name):
         """
-        年月の形式をチェックする。
+        Check the format of year and month.
 
         Parameters
         ----------
         columns : obj
-            形式チェックをする項目
+            The item to check the format
         column_name: str
-            項目名
+            Item name
 
         Returns
         -------
         str
-            エラー内容
+            Error content
         """
-        # 日付のハイフンとスラッシュ区切りに対応
+        # Code for check_year_month method
         columns_replaced = columns.replace('-', '').replace('/', '')
         try:
             datetime.datetime.strptime(columns_replaced, "%Y%m")
@@ -112,21 +114,21 @@ class ParamCheck():
 
     def check_year_month_day(self, columns, column_name):
         """
-        年月日の形式をチェックする。
+        Check the format of year, month, and day.
 
         Parameters
         ----------
         columns : obj
-            形式チェックをする項目
+            The item to check the format
         column_name: str
-            項目名
+            Item name
 
         Returns
         -------
         str
-            エラー内容
+            Error content
         """
-        # 日付のハイフンとスラッシュ区切りに対応
+        # Code for check_year_month_day method
         columns_replaced = columns.replace('-', '').replace('/', '')
         try:
             datetime.datetime.strptime(columns_replaced, "%Y%m%d")
@@ -135,23 +137,23 @@ class ParamCheck():
 
     def check_time_format(self, columns, column_name, time_format):
         """
-        時間の形式をチェックする。
+        Check the format of time.
 
         Parameters
         ----------
         columns : obj
-            形式チェックをする項目
+            The item to check the format
         column_name: str
-            項目名
+            Item name
         time_format: str
-            チェックしたいフォーマット
+            The format to be checked
 
         Returns
         -------
         str
-            エラー内容
+            Error content
         """
-        # 日付のハイフンとスラッシュ区切りに対応
+        # Code for check_time_format method
         columns_replaced = columns.replace(':', '')
         try:
             datetime.datetime.strptime(columns_replaced, time_format)

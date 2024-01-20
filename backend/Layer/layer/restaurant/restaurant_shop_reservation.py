@@ -11,11 +11,11 @@ from common import utils
 
 
 class RestaurantShopReservation(DynamoDB):
-    """RestaurantShopReservation操作用クラス"""
+    """Class for RestaurantShopReservation operations"""
     __slots__ = ['_table']
 
     def __init__(self):
-        """初期化メソッド"""
+        """Initialization method"""
         table_name = os.environ.get("SHOP_RESERVATION_TABLE")
         super().__init__(table_name)
         self._table = self._db.Table(table_name)
@@ -23,28 +23,27 @@ class RestaurantShopReservation(DynamoDB):
     def put_item(self, shop_id, reserved_day, reserved_year_month,
                  reserved_info, total_reserved_number, vacancy_flg):
         """
-        データ登録
+        Register data
 
         Parameters
         ----------
         shop_id : int
-            店舗ID
+            Shop ID
         reserved_day : str
-            予約日
+            Reservation day
         reserved_year_month : str
-            予約年月
+            Reservation year and month
         reserved_info : list
-            30分毎の人数、時間等の予約情報
+            Reservation information every 30 minutes, including the number of people, time, etc.
         total_reserved_number : int
-            指定日の合計予約人数
+            Total number of reservations for the specified day
         vacancy_flg : int
-            空き状況フラグ -> 0:空き無し, 1:空きあり, 2:空き少し
+            Vacancy flag -> 0: No vacancy, 1: Vacancy, 2: Limited vacancy
 
         Returns
         -------
         response : dict
-            レスポンス情報
-
+            Response information
         """
         item = {
             'shopId': shop_id,
@@ -69,26 +68,25 @@ class RestaurantShopReservation(DynamoDB):
     def update_item(self, shop_id, reserved_day, reserved_info,
                     total_reserved_number, vacancy_flg):
         """
-        データ更新
+        Update data
 
         Parameters
         ----------
         shop_id : int
-            店舗ID
+            Shop ID
         reserved_day : str
-            予約日
+            Reservation day
         reserved_info : list
-            30分毎の人数、時間等の予約情報
+            Reservation information every 30 minutes, including the number of people, time, etc.
         total_reserved_number : int
-            指定日の合計予約人数
+            Total number of reservations for the specified day
         vacancy_flg : int
-            空き状況フラグ -> 0:空き無し, 1:空きあり, 2:空き少し
+            Vacancy flag -> 0: No vacancy, 1: Vacancy, 2: Limited vacancy
 
         Returns
         -------
         response : dict
-            レスポンス情報
-
+            Response information
         """
         key = {'shopId': shop_id, 'reservedDay': reserved_day}
         expression = ('set reservedInfo=:reserved_info, '
@@ -113,20 +111,19 @@ class RestaurantShopReservation(DynamoDB):
 
     def get_item(self, shop_id, reserved_day):
         """
-        データ取得
+        Retrieve data
 
         Parameters
         ----------
         shop_id : int
-            店舗ID
+            Shop ID
         reserved_day : str
-            予約日
+            Reservation day
 
         Returns
         -------
         item : dict
-            特定日の予約情報
-
+            Reservation information for a specific day
         """
         key = {'shopId': shop_id, 'reservedDay': reserved_day}
 
@@ -138,20 +135,19 @@ class RestaurantShopReservation(DynamoDB):
 
     def query_index_shop_id_reserved_year_month(self, shop_id, reserved_year_month):  # noqa: E501
         """
-        queryメソッドを使用してshopId-reservedYearMonth-indexのインデックスからデータ取得
+        Retrieve data from the shopId-reservedYearMonth-index using the query method
 
         Parameters
         ----------
         shop_id : int
-            店舗ID
+            Shop ID
         reserved_year_month : str
-            予約年月
+            Reservation year and month
 
         Returns
         -------
         items : list
-            特定年月の予約情報のリスト
-
+            List of reservation information for a specific year and month
         """
         index = 'shopId-reservedYearMonth-index'
         expression = 'shopId = :shop_id AND reservedYearMonth = :reserved_year_month'  # noqa: E501
